@@ -1,3 +1,6 @@
+<?php
+//require_once dirname(__DIR__) . '/config/constants.php';
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>

@@ -1,3 +1,6 @@
+<?php
+//require_once dirname(__DIR__) . '/config/constants.php';
+?>
 </main>
 
 <footer role="contentinfo">
