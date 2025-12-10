@@ -1,0 +1,35 @@
+# --- IDE i OS datoteke ---
+.DS_Store          # Mac OS X
+Thumbs.db          # Windows
+*.log              # Općeniti log fajlovi
+
+# VS Code
+.vscode/
+
+# --- Upravljanje ovisnostima (PHP/Composer) ---
+/vendor/           # Svi vanjski PHP paketi instalirani preko Composera
+composer.lock      # Opcionalno, ali se obično ostavlja kako bi se osigurale iste verzije ovisnosti
+
+# --- Upravljanje ovisnostima (JavaScript/Node) ---
+/node_modules/     # Svi JS paketi instalirani preko npm/Yarna
+
+# --- DDEV Specifične datoteke i mape ---
+# Ignoriraj DDEV-ove podatke, logove i certifikate unutar .ddev foldera
+.ddev/.global_config.yaml
+.ddev/config.*.yaml
+.ddev/db.yaml
+.ddev/git-hooks/
+.ddev/logs/
+.ddev/nginx-full/
+.ddev/web-full/
+.ddev/ssh/
+.ddev/router-compose.*.yaml
+.ddev/config.yaml.example
+.ddev/*.crt
+.ddev/*.key
+
+# --- Osjetljivi podaci (Lozinke, API ključevi) ---
+# Kreirajte .env fajl za lokalne tajne i ignorirajte ga
+.env
+# Ako koristite lokalni konfiguracijski fajl
+config.local.php
