@@ -3,11 +3,31 @@ header {
   display: flex;
   justify-content: space-between;
 }
+.logo {
+  display: flex;
+}
+.logo a {
+  align-content: center;
+  color: white;
+  padding: 10px 15px;
+}
 .main-nav {
   display: flex;
   list-style: none;
 }
 .main-nav li a {
+  color: white;
+  padding: 10px 15px;
+}
+footer {
+  background-color: #1b1b1d;
+  padding: 10px;
+  color: white;
+}
+footer ul {
+  list-style-type: none;
+}
+footer ul a {
   color: white;
   padding: 10px 15px;
 }

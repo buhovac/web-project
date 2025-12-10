@@ -1,29 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Accueil - Nom de l'Application</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<header role="banner">
-  <div>
-    <a href="index.php" aria-label="Accueil du site">Nom de l'App</a>
-  </div>
-
-  <nav aria-label="Navigation principale du site">
-    <ul>
-      <li><a href="index.php" aria-current="page">Accueil</a></li>
-      <li><a href="about.html">À propos</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="contact.html">Contact</a></li>
-    </ul>
-  </nav>
-</header>
-
-<main id="main-content">
+<?php require_once __DIR__ . DIRECTORY_SEPARATOR . '../views/templates/header.php'; ?>
   <h1>Inscription Utilisateur</h1>
 
   <form aria-labelledby="form-heading" action="/submit-registration" method="POST">
@@ -95,18 +70,4 @@
 
     <p><span aria-hidden="true">*</span> Champs obligatoires</p>
   </form>
-</main>
-
-<footer role="contentinfo">
-  <nav aria-label="Liens secondaires et légaux">
-    <ul>
-      <li><a href="#">Politique de Confidentialité</a></li>
-      <li><a href="#">Conditions d'Utilisation</a></li>
-    </ul>
-  </nav>
-  <p>&copy; <span id="current-year">2025</span> Nom de l'Application. Tous droits réservés.</p>
-  <script>document.getElementById('current-year').textContent = new Date().getFullYear();</script>
-</footer>
-
-</body>
-</html>
+<?php require_once __DIR__ . DIRECTORY_SEPARATOR . '../views/templates/footer.php'; ?>
