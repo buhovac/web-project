@@ -10,21 +10,21 @@ echo "Hola mundo ". $c ;
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Accueil - Nom de l'Application</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
 
 <header role="banner">
   <div>
-    <a href="index.html" aria-label="Accueil du site">Nom de l'App</a>
+    <a href="index.php" aria-label="Accueil du site">Nom de l'App</a>
   </div>
 
   <nav aria-label="Navigation principale du site">
-    <ul>
-      <li><a href="index.html" aria-current="page">Accueil</a></li>
-      <li><a href="about.html">À propos</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="contact.html">Contact</a></li>
+    <ul class="main-nav">
+      <li><a href="index.php" aria-current="page">Accueil</a></li>
+      <li><a href="about.php">À propos</a></li>
+      <li><a href="blog.php">Blog</a></li>
+      <li><a href="contact.php">Contact</a></li>
     </ul>
   </nav>
 </header>
