@@ -49,3 +49,18 @@ fieldset div {
 input, textarea {
   max-width: 650px;
 }
+.custom-error {
+  font-weight: bold;
+  color: red;
+}
+
+form { max-width: 560px; }
+.field { margin-bottom: 14px; }
+label { display: block; font-weight: 600; margin-bottom: 6px; }
+input, textarea { width: 100%; padding: 10px; box-sizing: border-box; }
+textarea { min-height: 120px; }
+.error-text { margin: 6px 0 0; }
+.status-text { margin: 10px 0 0; font-weight: 600; }
+.field-error { border: 2px solid #d00; }
+.hint { margin-top: 10px; opacity: .8; font-size: 0.95rem; }
+button { padding: 10px 14px; cursor: pointer; }
