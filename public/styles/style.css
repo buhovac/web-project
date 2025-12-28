@@ -31,3 +31,21 @@ footer ul a {
   color: white;
   padding: 10px 15px;
 }
+
+/* Form style */
+fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+fieldset div {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input, textarea {
+  max-width: 650px;
+}
