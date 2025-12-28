@@ -14,11 +14,12 @@ $currentPath = ltrim($currentPath, '/');
 echo $currentPath;
 function isActive(string $linkPath, string $currentPath): string {
   // Ako se putanja linka podudara s trenutnom putanjom
-  if ($linkPath === $currentPath) {
+
+  if ('public/'.$linkPath === $currentPath) {
     return 'active';
   }
   // Poseban slučaj: Ako je korisnik na rootu, index.php je aktivan
-  if ($linkPath === 'index.php' && $currentPath === '') {
+  if ('public/'.$linkPath === 'public/index.php' && $currentPath === '') {
     return 'active';
   }
   return '';
@@ -46,9 +47,9 @@ $loginPath = 'views/user/login.php';
 
   <nav aria-label="Navigation principale du site">
     <ul class="main-nav">
-      <li><a class="<?php echo isActive($homePath, $currentPath); ?>" href="index.php" aria-current="page">Accueil</a></li>
-      <li><a class="<?php echo isActive($aboutPath, $currentPath); ?>" href="about.php">À propos</a></li>
-      <li><a class="<?php echo isActive($profilePath, $currentPath); ?>" href="blog.php">Blog</a></li>
+      <li><a class="<?php echo isActive("index.html", $currentPath); ?>" href="index.php" aria-current="page">Accueil</a></li>
+      <li><a class="<?php echo isActive("about.php", $currentPath); ?>" href="about.php">À propos</a></li>
+      <li><a class="<?php echo isActive("blog.php", $currentPath); ?>" href="blog.php">Blog</a></li>
       <li><a class="<?php echo isActive($profilePath, $currentPath); ?>" href="contact.php">Contact</a></li>
     </ul>
   </nav>
