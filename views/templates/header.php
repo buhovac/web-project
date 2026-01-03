@@ -50,7 +50,9 @@ $loginPath = 'views/user/login.php';
       <li><a class="<?php echo isActive("index.html", $currentPath); ?>" href="index.php" aria-current="page">Accueil</a></li>
       <li><a class="<?php echo isActive("about.php", $currentPath); ?>" href="about.php">À propos</a></li>
       <li><a class="<?php echo isActive("blog.php", $currentPath); ?>" href="blog.php">Blog</a></li>
+      <li><a class="<?php echo isActive("inscription.php", $currentPath); ?>" href="inscription.php">Inscription</a></li>
       <li><a class="<?php echo isActive($profilePath, $currentPath); ?>" href="contact.php">Contact</a></li>
+      <li><a class="<?php echo isActive("connexion.php", $currentPath); ?>" href="connexion.php">Connexion</a></li>
     </ul>
   </nav>
 </header>

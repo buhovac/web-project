@@ -55,7 +55,6 @@ input, textarea {
 }
 
 form { max-width: 560px; }
-.field { margin-bottom: 14px; }
 label { display: block; font-weight: 600; margin-bottom: 6px; }
 input, textarea { width: 100%; padding: 10px; box-sizing: border-box; }
 textarea { min-height: 120px; }
