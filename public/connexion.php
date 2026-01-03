@@ -1,8 +1,10 @@
-<?php require_once __DIR__ . DIRECTORY_SEPARATOR . '../views/templates/header.php'; ?>
-<?php require_once __DIR__ . DIRECTORY_SEPARATOR . '../src/form_manager.php'; ?>
-<?php require_once __DIR__ . DIRECTORY_SEPARATOR . '../config/database.php'; ?>
-
 <?php
+require_once __DIR__ . DIRECTORY_SEPARATOR . '../src/form_manager.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . '../src/gestionAuthentification.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . '../config/database.php';
+
+rediriger_si_connecte('profil.php');
+
 $lang = 'fr';
 $messages = getMessages($lang);
 
@@ -59,16 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (!password_verify($pwd, (string)$user['uti_motdepasse'])) {
       $formMessage = renderStatus($messages, 'login_ko');
     } else {
-      session_start();
-      session_regenerate_id(true);
-
-      $_SESSION['uti_id'] = (int)$user['uti_id'];
-      $_SESSION['uti_pseudo'] = (string)$user['uti_pseudo'];
-
-      $formMessage = renderStatus($messages, 'login_ok');
-
-    }
+    connecter_utilisateur((int)$user['uti_id']);
+    header('Location: profil.php');
+    exit;
   }
+
+}
 
   if ($formMessage === '') {
     $formMessage = empty($erreurs)
@@ -77,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 ?>
+<?php require_once __DIR__ . DIRECTORY_SEPARATOR . '../views/templates/header.php';?>
 
 <h1>Connexion</h1>
 
