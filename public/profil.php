@@ -1,6 +1,9 @@
 <?php
-require_once __DIR__ . '/../views/templates/header.php';
+require_once __DIR__ . '/../src/session.php';
+start_secure_session();
+
 require_once __DIR__ . '/../src/gestionAuthentification.php';
+require_once __DIR__ . '/../src/csrf.php';
 require_once __DIR__ . '/../config/database.php';
 
 rediriger_si_non_connecte('connexion.php');
@@ -8,8 +11,13 @@ rediriger_si_non_connecte('connexion.php');
 $pdo = db();
 $utiId = (int)($_SESSION['utilisateurId'] ?? 0);
 
-// Logout submit
+// Logout submit (POST + CSRF)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
+  if (!csrf_validate($_POST['csrf_token'] ?? null)) {
+    http_response_code(403);
+    die('CSRF token invalide.');
+  }
+
   deconnecter_utilisateur();
   header('Location: connexion.php');
   exit;
@@ -21,11 +29,12 @@ $stmt->execute([':id' => $utiId]);
 $user = $stmt->fetch();
 
 if (!$user) {
-  // ako user više ne postoji u DB
   deconnecter_utilisateur();
   header('Location: connexion.php');
   exit;
 }
+
+require_once __DIR__ . '/../views/templates/header.php';
 ?>
 
 <h1>Profil</h1>
@@ -34,6 +43,7 @@ if (!$user) {
 <p><strong>Email:</strong> <?= htmlspecialchars($user['uti_email'], ENT_QUOTES, 'UTF-8') ?></p>
 
 <form method="post">
+  <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
   <button type="submit" name="logout" value="1">Déconnexion</button>
 </form>
 

@@ -5,7 +5,7 @@
   <section aria-labelledby="intro-heading">
     <h2 id="intro-heading">Découvrez nos services</h2>
     <p>Ceci est le contenu de la page d'accueil. Il devrait être engageant et présenter l'objectif principal de l'application.</p>
-    <a href="contact.html" class="button-primary">S'inscrire Maintenant</a>
+    <a href="inscription.php" class="button-primary">S'inscrire Maintenant</a>
   </section>
 
   <section aria-labelledby="features-heading">

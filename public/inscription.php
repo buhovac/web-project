@@ -1,7 +1,11 @@
 <?php
+require_once __DIR__ . '/../src/session.php';
+start_secure_session();
 require_once __DIR__ . DIRECTORY_SEPARATOR . '../src/form_manager.php';
 require_once __DIR__ . DIRECTORY_SEPARATOR . '../config/database.php';
 require_once __DIR__ . '/../src/gestionAuthentification.php';
+require_once __DIR__ . '/../src/csrf.php';
+require_once __DIR__ . '/../src/rate_limit.php';
 rediriger_si_connecte('profil.php');
 
 $lang = 'fr';
@@ -50,6 +54,15 @@ $formMessage = '';
 $old = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  if (!csrf_validate($_POST['csrf_token'] ?? null)) {
+    http_response_code(403);
+    die('CSRF token invalide.');
+  }
+  if (!rate_limit_post('inscription', 2, 10)) {
+    http_response_code(429);
+    die("Trop de requêtes. Réessayez plus tard.");
+  }
+
   $old = $_POST;
 
   // 1) basic rules (required/min/max/email)
@@ -199,6 +212,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div id="<?= errId('inscription_motDePasse_confirmation') ?>" role="alert"><?= $erreurs['inscription_motDePasse_confirmation'] ?></div>
       <?php endif; ?>
     </div>
+    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
 
   </fieldset>
 
