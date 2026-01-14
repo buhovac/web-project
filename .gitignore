@@ -27,6 +27,8 @@ composer.lock      # Opcionalno, ali se obično ostavlja kako bi se osigurale is
 .ddev/config.yaml.example
 .ddev/*.crt
 .ddev/*.key
+.ddev/
+.git/
 
 # --- Osjetljivi podaci (Lozinke, API ključevi) ---
 # Kreirajte .env fajl za lokalne tajne i ignorirajte ga
