@@ -1,36 +1,37 @@
 <?php
 declare(strict_types=1);
 
-/**
- * Shared form manager:
- * - messages catalog
- * - validation helpers
- * - template helpers (old/hasErr/errId)
- */
+// -------------------- Messages (catalog) --------------------
 
 function getMessages(string $lang = 'fr'): array
 {
   $messages = [
     'fr' => [
-      'required'           => "Ce champ est requis !",
-      'email_invalid'      => "Veuillez entrer une adresse email valide !",
-      'length_range'       => "Ce champ doit comprendre entre {min} et {max} caractères !",
-      'password_mismatch'  => "Les mots de passe ne correspondent pas !",
+      // Generic field errors
+      'required'         => "Ce champ est requis !",
+      'email_invalid'    => "Veuillez entrer une adresse email valide !",
+      'length_range'     => "Ce champ doit comprendre entre {min} et {max} caractères !",
+      'password_mismatch'=> "Les mots de passe ne correspondent pas !",
 
-      'form_ok'            => "Le formulaire a bien été envoyé !",
-      'form_ko'            => "Le formulaire n'a pas été envoyé !",
+      // Registration / login specific
+      'pseudo_taken'     => "Ce pseudo est déjà utilisé !",
+      'email_taken'      => "Cet email est déjà utilisé !",
+      'register_ok'      => "Inscription réussie !",
+      'register_ko'      => "Erreur lors de l'inscription. Veuillez réessayer.",
+      'login_ok'         => "Connexion réussie !",
+      'login_ko'         => "Identifiants invalides.",
+      'login_inactive'   => "Compte inactif.",
 
-      // kasnije za DB:
-      'register_ok'   => "Inscription réussie ! Vous pouvez vous connecter.",
-      'register_ko'   => "Impossible de créer le compte. Veuillez réessayer.",
-      'login_ok'      => "Connexion réussie !",
-      'login_ko'      => "Pseudo ou mot de passe incorrect !",
-      'login_inactive'=> "Compte désactivé !",
+      // Form-level generic (PP02)
+      'form_ok'          => "Le formulaire a bien été envoyé !",
+      'form_ko'          => "Le formulaire n'a pas été envoyé !",
     ],
   ];
 
   return $messages[$lang] ?? $messages['fr'];
 }
+
+// -------------------- Output escaping --------------------
 
 function h(string $s): string
 {
@@ -40,22 +41,26 @@ function h(string $s): string
 function renderMessage(array $catalog, string $key, array $params = []): string
 {
   $template = $catalog[$key] ?? $key;
+
   foreach ($params as $k => $v) {
     $template = str_replace('{' . $k . '}', (string)$v, $template);
   }
+
   return '<p class="error-text">' . h($template) . '</p>';
 }
 
 function renderStatus(array $catalog, string $key, array $params = []): string
 {
   $template = $catalog[$key] ?? $key;
+
   foreach ($params as $k => $v) {
     $template = str_replace('{' . $k . '}', (string)$v, $template);
   }
+
   return '<p class="status-text">' . h($template) . '</p>';
 }
 
-// ---- validation primitives ----
+// -------------------- Validation primitives --------------------
 
 function nettoyerEntreeUtilisateur(array $entreesUtilisateur, string $nomChamp): string
 {
@@ -86,7 +91,7 @@ function verifierValiditeChamps(array $reglesDesChamps, array $entreesUtilisateu
     $valeur = nettoyerEntreeUtilisateur($entreesUtilisateur, $nomDuChamp);
     $msgKeys = $reglesDuChamp['messages'] ?? [];
 
-    // required
+    // REQUIRED
     if (!estRempli($valeur)) {
       if (!empty($reglesDuChamp['requis'])) {
         $key = $msgKeys['required'] ?? 'required';
@@ -95,7 +100,7 @@ function verifierValiditeChamps(array $reglesDesChamps, array $entreesUtilisateu
       continue;
     }
 
-    // type=email
+    // TYPE=email
     if (
       isset($reglesDuChamp['type']) &&
       $reglesDuChamp['type'] === 'email' &&
@@ -106,7 +111,7 @@ function verifierValiditeChamps(array $reglesDesChamps, array $entreesUtilisateu
       continue;
     }
 
-    // length range
+    // LENGTH range
     if (
       isset($reglesDuChamp['longueurMin'], $reglesDuChamp['longueurMax']) &&
       !respecteLongueurMinEtMax($valeur, (int)$reglesDuChamp['longueurMin'], (int)$reglesDuChamp['longueurMax'])
@@ -122,7 +127,7 @@ function verifierValiditeChamps(array $reglesDesChamps, array $entreesUtilisateu
   return $erreurs;
 }
 
-// ---- template helpers ----
+// -------------------- Helpers used by templates --------------------
 
 function old(array $old, string $key): string
 {

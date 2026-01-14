@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/session.php';
+
 function demarrer_session_si_necessaire(): void
 {
-  if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-  }
+  start_secure_session();
 }
 
 function connecter_utilisateur(int $utilisateurId): void
