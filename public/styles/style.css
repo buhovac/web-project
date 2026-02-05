@@ -62,3 +62,63 @@ textarea { min-height: 120px; }
 .field-error { border: 2px solid #d00; }
 .hint { margin-top: 10px; opacity: .8; font-size: 0.95rem; }
 button { padding: 10px 14px; cursor: pointer; }
+
+.section { margin: 24px 0; }
+
+/* Carousel */
+.carousel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+.carousel__track {
+  display: flex;
+  transition: transform 320ms ease;
+}
+
+.carousel__slide {
+  flex: 0 0 100%;
+  padding: 18px;
+  background: #f6f6f6;
+}
+
+.carousel__btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 0;
+  color: #fff;
+  background: rgba(0,0,0,.55);
+}
+
+.carousel__btn:disabled { opacity: .35; cursor: not-allowed; }
+.carousel__btn--prev { left: 10px; }
+.carousel__btn--next { right: 10px; }
+
+.carousel__dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 12px;
+  background: #fff;
+}
+
+.carousel__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 1px solid #333;
+  background: transparent;
+}
+.carousel__dot.is-active { background: #333; }
+
+/* Desktop: 2 slides visible (responsive enhancement) */
+@media (min-width: 900px) {
+  .carousel__slide { flex-basis: 50%; }
+}
