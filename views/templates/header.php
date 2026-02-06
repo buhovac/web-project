@@ -34,7 +34,6 @@ $isLoggedIn = est_connecte();
       </button>
       <nav id="main-nav" class="nav">
         <a href="/index" <?= isActive('index', $currentPage) ?>>Accueil</a>
-        <a href="/contact" <?= isActive('about', $currentPage) ?>>Contact</a>
 
         <?php if (!$isLoggedIn): ?>
           <a href="/inscription" <?= isActive('inscription', $currentPage) ?>>Inscription</a>
