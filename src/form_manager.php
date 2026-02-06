@@ -31,7 +31,7 @@ function getMessages(string $lang = 'fr'): array
   return $messages[$lang] ?? $messages['fr'];
 }
 
-// -------------------- Output escaping --------------------
+// ------------------- Output escaping ------------------
 
 function h(string $s): string
 {
@@ -60,7 +60,7 @@ function renderStatus(array $catalog, string $key, array $params = []): string
   return '<p class="status-text">' . h($template) . '</p>';
 }
 
-// -------------------- Validation primitives --------------------
+// ------------------ Validation primitives --------------------
 
 function nettoyerEntreeUtilisateur(array $entreesUtilisateur, string $nomChamp): string
 {
@@ -127,7 +127,7 @@ function verifierValiditeChamps(array $reglesDesChamps, array $entreesUtilisateu
   return $erreurs;
 }
 
-// -------------------- Helpers used by templates --------------------
+// -------------- Helpers used by templates -------------------
 
 function old(array $old, string $key): string
 {

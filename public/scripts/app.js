@@ -18,8 +18,9 @@ class Carousel {
     }
 
     slidesPerView() {
-        // must match CSS breakpoint (>=900px => 2 slides)
-        return window.innerWidth >= 900 ? 2 : 1;
+        if (window.innerWidth >= 1024) return 2;
+        if (window.innerWidth >= 768) return 2;
+        return 1;
     }
 
     maxIndex() {
@@ -88,4 +89,36 @@ class Carousel {
 
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("[data-carousel]").forEach((root) => new Carousel(root));
+
+    // Mobile Navigation Toggle
+    const toggleBtn = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('main-nav');
+
+    if (toggleBtn && nav) {
+        toggleBtn.addEventListener('click', () => {
+            const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+            toggleBtn.setAttribute('aria-expanded', !isExpanded);
+            nav.classList.toggle('is-open');
+        });
+    }
 });
+
+
+// API integration
+async function loadWeather() {
+    const out = document.getElementById("weather");
+    if (!out) return;
+
+    try {
+        const res = await fetch(
+            "https://api.open-meteo.com/v1/forecast?latitude=50.85&longitude=4.35&current=temperature_2m&timezone=Europe%2FBrussels"
+        );
+        const data = await res.json();
+
+        out.textContent = `Brussels: ${data.current.temperature_2m}°C`;
+    } catch {
+        out.textContent = "Weather unavailable.";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", loadWeather);

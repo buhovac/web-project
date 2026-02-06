@@ -1,14 +1,8 @@
 <?php
 declare(strict_types=1);
 
-/**
- * Session hardening (PP06)
- * Call this BEFORE session_start() and BEFORE any output.
- */
-
 function start_secure_session(): void
 {
-  // Ako je session već aktivna, ne smiješ mijenjati ini/cookie params.
   if (session_status() === PHP_SESSION_ACTIVE) {
     return;
   }

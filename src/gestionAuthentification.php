@@ -26,7 +26,6 @@ function deconnecter_utilisateur(): void
   demarrer_session_si_necessaire();
   unset($_SESSION['utilisateurId']);
 
-  // opcionalno “hard logout”
   session_regenerate_id(true);
 }
 function rediriger_si_connecte(string $vers = 'profil.php'): void

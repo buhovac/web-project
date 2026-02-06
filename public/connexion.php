@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $formMessage = renderStatus($messages, 'login_ko');
     } else {
     connecter_utilisateur((int)$user['uti_id']);
-    header('Location: profil.php');
+    header('Location: /profil');
     exit;
   }
 
@@ -89,9 +89,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <?php require_once __DIR__ . DIRECTORY_SEPARATOR . '../views/templates/header.php';?>
 
+<section data-aos="fade-up">
 <h1>Connexion</h1>
 
-<form method="post" novalidate aria-labelledby="form-heading">
+    <?php if (!empty($_SESSION['flash_success'])): ?>
+        <div class="status-success" role="status" aria-live="polite">
+            <?= htmlspecialchars($_SESSION['flash_success']) ?>
+        </div>
+        <?php unset($_SESSION['flash_success']); ?>
+    <?php endif; ?>
+
+    <form method="post" novalidate aria-labelledby="form-heading">
   <h2 id="form-heading">Veuillez remplir pour vous connecter</h2>
 
   <fieldset>
@@ -145,6 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <p class="hint"><span aria-hidden="true">*</span> Champs obligatoires</p>
 </form>
 
-<a href="inscription.php">Inscription</a>
+<a href="/inscription">Inscription</a>
+</section>
 
 <?php require_once __DIR__ . DIRECTORY_SEPARATOR . '../views/templates/footer.php'; ?>
