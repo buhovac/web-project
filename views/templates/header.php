@@ -21,20 +21,29 @@ $isLoggedIn = est_connecte();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Web Project</title>
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+    <link rel="stylesheet" href="styles/variables.css">
+  <link rel="stylesheet" href="styles/base.css">
   <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
 <header class="site-header">
-  <nav class="nav">
-    <a href="index.php" <?= isActive('index.php', $currentPage) ?>>Accueil</a>
-    <a href="contact.php" <?= isActive('about.php', $currentPage) ?>>Contact</a>
+  <div class="container header-inner">
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
+        <span class="hamburger"></span>
+      </button>
+      <nav id="main-nav" class="nav">
+        <a href="/index" <?= isActive('index', $currentPage) ?>>Accueil</a>
+        <a href="/contact" <?= isActive('about', $currentPage) ?>>Contact</a>
 
-    <?php if (!$isLoggedIn): ?>
-      <a href="inscription.php" <?= isActive('inscription.php', $currentPage) ?>>Inscription</a>
-      <a href="connexion.php" <?= isActive('connexion.php', $currentPage) ?>>Connexion</a>
-    <?php else: ?>
-      <a href="profil.php" <?= isActive('profil.php', $currentPage) ?>>Profil</a>
-    <?php endif; ?>
-  </nav>
+        <?php if (!$isLoggedIn): ?>
+          <a href="/inscription" <?= isActive('inscription', $currentPage) ?>>Inscription</a>
+          <a href="/connexion" <?= isActive('connexion', $currentPage) ?>>Connexion</a>
+        <?php else: ?>
+          <a href="/profil" <?= isActive('profil', $currentPage) ?>>Profil</a>
+        <?php endif; ?>
+      </nav>
+      <p id="weather" aria-live="polite"></p>
+  </div>
 </header>
 <main class="container">
