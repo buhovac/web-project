@@ -121,4 +121,53 @@ async function loadWeather() {
     }
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("inscription-form");
+    if (!form) return;
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const responseBox = document.getElementById("form-response");
+        if (responseBox) {
+            responseBox.innerHTML = "";
+        }
+
+        const formData = new FormData(form);
+
+        try {
+            const res = await fetch("/api-inscription", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                if (responseBox) {
+                    responseBox.innerHTML = `<p class="status-text">${data.message}</p>`;
+                }
+                form.reset();
+
+                setTimeout(() => {
+                    window.location.href = "/connexion";
+                }, 1200);
+                return;
+            }
+
+            if (responseBox) {
+                responseBox.innerHTML = `<p class="error-text">${data.message || "Erreur."}</p>`;
+            }
+
+        } catch (error) {
+            if (responseBox) {
+                responseBox.innerHTML = `<p class="error-text">Erreur réseau. Veuillez réessayer.</p>`;
+            }
+        }
+    });
+});
+
 document.addEventListener("DOMContentLoaded", loadWeather);

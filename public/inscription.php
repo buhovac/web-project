@@ -56,91 +56,6 @@ $erreurs = [];
 $formMessage = '';
 $old = [];
 $registrationOk = false;
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!csrf_validate($_POST['csrf_token'] ?? null)) {
-        http_response_code(403);
-        die('CSRF token invalide.');
-    }
-
-    if (!rate_limit_post('inscription', 2, 10)) {
-        http_response_code(429);
-        die("Trop de requêtes. Réessayez plus tard.");
-    }
-
-    $old = $_POST;
-
-    // 1) basic rules (required/min/max/email)
-    $erreurs = verifierValiditeChamps($reglesDesChamps, $_POST, $messages);
-
-    // 2) password confirmation rule
-    $pwd  = $_POST['inscription_motDePasse'] ?? '';
-    $pwd2 = $_POST['inscription_motDePasse_confirmation'] ?? '';
-    if ($pwd !== '' && $pwd2 !== '' && $pwd !== $pwd2) {
-        $erreurs['inscription_motDePasse_confirmation'] = renderMessage($messages, 'password_mismatch');
-    }
-
-    if (empty($erreurs)) {
-        $pdo = db();
-
-        $pseudo = trim($_POST['inscription_pseudo'] ?? '');
-        $email  = trim($_POST['inscription_email'] ?? '');
-        $pwd    = $_POST['inscription_motDePasse'] ?? '';
-
-        // Unique pseudo
-        $stmt = $pdo->prepare("SELECT 1 FROM t_utilisateur_uti WHERE uti_pseudo = :p LIMIT 1");
-        $stmt->execute([':p' => $pseudo]);
-        if ($stmt->fetchColumn()) {
-            $erreurs['inscription_pseudo'] = renderMessage($messages, 'pseudo_taken');
-        }
-
-        // Unique email
-        $stmt = $pdo->prepare("SELECT 1 FROM t_utilisateur_uti WHERE uti_email = :e LIMIT 1");
-        $stmt->execute([':e' => $email]);
-        if ($stmt->fetchColumn()) {
-            $erreurs['inscription_email'] = renderMessage($messages, 'email_taken');
-        }
-
-        // Insert if still no errors
-        if (empty($erreurs)) {
-            $hash = password_hash($pwd, PASSWORD_DEFAULT);
-
-            try {
-                $stmt = $pdo->prepare("
-          INSERT INTO t_utilisateur_uti
-            (uti_pseudo, uti_email, uti_motdepasse, uti_compte_active, uti_code_activation)
-          VALUES
-            (:pseudo, :email, :hash, 1, NULL)
-        ");
-                $stmt->execute([
-                        ':pseudo' => $pseudo,
-                        ':email'  => $email,
-                        ':hash'   => $hash,
-                ]);
-
-                $registrationOk = true;
-                $old = [];
-
-            } catch (PDOException $ex) {
-                $formMessage = renderStatus($messages, 'register_ko');
-            }
-        }
-    }
-
-    // Ako je registracija prošla -> flash + redirect na /connexion
-    if ($registrationOk) {
-        $_SESSION['flash_success'] = "Inscription réussie. Vous pouvez maintenant vous connecter.";
-        header("Location: /connexion");
-        exit;
-    }
-
-    // Inače: prikaži status (OK/KO) samo ako nema specifične poruke
-    if ($formMessage === '') {
-        $formMessage = empty($erreurs)
-                ? renderStatus($messages, 'form_ok')
-                : renderStatus($messages, 'form_ko');
-    }
-}
 ?>
 
 <?php require_once __DIR__ . DIRECTORY_SEPARATOR . '../views/templates/header.php'; ?>
@@ -148,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <section data-aos="fade-up">
     <h1>Inscription</h1>
 
-    <form method="post" novalidate aria-labelledby="form-heading">
+    <form id="inscription-form" method="post" novalidate aria-labelledby="form-heading">
         <h2 id="form-heading">Veuillez remplir pour vous inscrire</h2>
 
         <fieldset>
@@ -236,6 +151,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </fieldset>
 
         <button type="submit">Envoyer</button>
+
+        <div id="form-response" aria-live="polite"></div>
 
         <?= $formMessage ?>
 
